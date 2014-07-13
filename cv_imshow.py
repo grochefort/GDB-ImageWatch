@@ -25,8 +25,10 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import gdb
-import Image
+from PIL import Image
+import pylab as pl
 import struct
+
 
 def chunker(seq, size):
     return (seq[pos:pos + size] for pos in xrange(0, len(seq), size))
@@ -224,6 +226,31 @@ class cv_imshow(gdb.Command):
         # Show image.
         img = Image.new(mode, (width, height))
         img.putdata(image_data)
-        img.show()
+        img = pl.asarray(img);
+
+        fig = pl.figure()
+        b = fig.add_subplot(111)
+        if n_channel == 1:
+            b.imshow(img, cmap = pl.cm.Greys_r)
+        elif n_channel == 3:
+            b.imshow(img)
+
+        def format_coord(x, y):
+            col = int(x+0.5)
+            row = int(y+0.5)
+            if col>=0 and col<width and row>=0 and row<height:
+                if n_channel == 1:
+                    z = img[row,col]
+                    return '(%d, %d), [%1.2f]'%(x, y, z)
+                elif n_channel == 3:
+                    z0 = img[row,col,0]
+                    z1 = img[row,col,1]
+                    z2 = img[row,col,2]
+                    return '(%d, %d), [%1.2f, %1.2f, %1.2f]'%(x, y, z0, z1, z2)
+            else:
+                return 'x=%d, y=%d'%(x, y)
+
+        b.format_coord = format_coord
+        pl.show()
 
 cv_imshow()
