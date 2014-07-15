@@ -1,4 +1,4 @@
-# GDB OpenCV imshow
+# GDB Image Watch
 
 This is a simple python extension script to visualize interactively OpenCV
 images while debugging with gdb.
@@ -30,8 +30,9 @@ images while debugging with gdb.
 
  from within your gdb session.
 
- To display coordinate and pixel value, move the cursor while holding left mouse
- button.
+ On some systems (Arch Linux with DWM), coordinate and pixel value are displayed
+ automatically while moving the cursor. On others (Mac OS X) you may need to hold 
+ the left mouse button while moving the cursor.
 
 ## DEMO
 
