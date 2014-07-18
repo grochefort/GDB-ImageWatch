@@ -231,9 +231,9 @@ class cv_imshow(gdb.Command):
         fig = pl.figure()
         b = fig.add_subplot(111)
         if n_channel == 1:
-            b.imshow(img, cmap = pl.cm.Greys_r)
+            b.imshow(img, cmap = pl.cm.Greys_r, interpolation='nearest')
         elif n_channel == 3:
-            b.imshow(img)
+            b.imshow(img, interpolation='nearest')
 
         def format_coord(x, y):
             col = int(x+0.5)
@@ -241,14 +241,14 @@ class cv_imshow(gdb.Command):
             if col>=0 and col<width and row>=0 and row<height:
                 if n_channel == 1:
                     z = img[row,col]
-                    return '(%d, %d), [%1.2f]'%(x, y, z)
+                    return '(%d, %d), [%1.2f]'%(col, row, z)
                 elif n_channel == 3:
                     z0 = img[row,col,0]
                     z1 = img[row,col,1]
                     z2 = img[row,col,2]
-                    return '(%d, %d), [%1.2f, %1.2f, %1.2f]'%(x, y, z0, z1, z2)
+                    return '(%d, %d), [%1.2f, %1.2f, %1.2f]'%(col, row, z0, z1, z2)
             else:
-                return 'x=%d, y=%d'%(x, y)
+                return 'x=%d, y=%d'%(col, row)
 
         b.format_coord = format_coord
         pl.show()
