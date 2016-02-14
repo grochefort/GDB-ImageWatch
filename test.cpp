@@ -36,8 +36,8 @@ using namespace cv;
 int main(int argc, char *argv[])
 {
 
-    Mat matImg = imread("../gogh.jpg", CV_LOAD_IMAGE_GRAYSCALE);
-    Mat matImg3 = imread("../gogh.jpg");
+    Mat matImg = imread("gogh.jpg", CV_LOAD_IMAGE_GRAYSCALE);
+    Mat matImg3 = imread("gogh.jpg");
 
     if (matImg.data == NULL) {
         cerr << "Error: Can't find file gogh.jpg" << endl;
